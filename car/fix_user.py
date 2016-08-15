@@ -80,9 +80,20 @@ def matchInsurePremiumGreater2000(mysql,policy_uuid):
         if insurePremium >= 2000:
             print salesUserId, uuid
 
+# 300红包发了2次的记录筛选
+def match300BonusHave2Record(mysql):
+    for i in range(100):
+        index = "%02d" % i
+        sqltext = "select t.obj_id,t.user_id from sales_user_account_course_%s t where t.bonus_id = 79 and t.amount = 300 group by t.obj_id HAVING count(0) > 1" % index
+        lines, results = mysql.query(sqltext, mode=PyMysql.STORE_RESULT_MODE)
+        for row in results.fetch_row(lines):
+            sql = "select total_amount,SUM(c.amount),total_amount = SUM(c.amount) from sales_user_account t,sales_user_account_course_%s c where t.user_id = %s and c.user_id = t.user_id" % (index,row[1])
+            lines2, results2 = mysql.query(sql, mode=PyMysql.STORE_RESULT_MODE)
+            for row2 in results2.fetch_row(lines2):
+                print row[0],row[1],row2[0],row2[1],row2[2]
+
 if __name__ == '__main__':
     mysql = PyMysql.PyMysql()
-
     mysql.newConnection(host=ONLINE_HOST,
                         user=ONLINE_USER,
                         passwd=ONLINE_PASSWD,
@@ -91,10 +102,11 @@ if __name__ == '__main__':
     #                     user=TEST_USER,
     #                     passwd=TEST_PASSWD,
     #                     defaultdb="baoxian")
-    sqltext = "select t.policy_uuid,t.sales_user_id,t.policy_baof,t.push_money from car_insure_policy_allocation t,car_insure_recruit_info c where t.writer_time BETWEEN 1469980800000 and 1470118620000 and t.policy_status = 200 and c.certi_status = 3 and t.sales_user_id = c.user_id"
-    lines, results = mysql.query(sqltext, mode=PyMysql.STORE_RESULT_MODE)
-    for row in results.fetch_row(lines):
-       matchInsurePremiumGreater2000(mysql,row[0])
+    # sqltext = "select t.policy_uuid,t.sales_user_id,t.policy_baof,t.push_money from car_insure_policy_allocation t,car_insure_recruit_info c where t.writer_time BETWEEN 1469980800000 and 1470118620000 and t.policy_status = 200 and c.certi_status = 3 and t.sales_user_id = c.user_id"
+
+    # lines, results = mysql.query(sqltext, mode=PyMysql.STORE_RESULT_MODE)
+    # for row in results.fetch_row(lines):
+    #    matchInsurePremiumGreater2000(mysql,row[0])
 
 
 
