@@ -5,3 +5,5 @@
 .idea
 car/*.csv
 car/*.xls
+car/*.xlsx
+car/spark_pdw_fact_learning.yaml

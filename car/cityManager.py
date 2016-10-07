@@ -12,8 +12,8 @@ fieldKeys = [
     u'compulsoryPremium',
     u'commercialPushMoney',
     u'compulsoryPushMoney',
-    u'commercialRatio',
-    u'compulsoryRatio',
+    # u'commercialRatio',
+    # u'compulsoryRatio',
     u'push_money',
     u'right',
     u'sumAmount',
@@ -23,8 +23,19 @@ fieldKeys = [
     u'carNumber',
     u'policy_uuid'
 ]
-fieldnames = [u'商业保费', u'交强保费', u'商业推广费', u'交强推广费', u'商业推广费比例', u'交强推广费比例', u'推广费', u'差距', u'流水汇总', u'账户总额', u'手机',
-              u'姓名', u'车牌号',
+fieldnames = [u'商业保费',
+              u'交强保费',
+              # u'商业推广费',
+              # u'交强推广费',
+              # u'商业推广费比例',
+              # u'交强推广费比例',
+              u'推广费',
+              # u'差距',
+              # u'流水汇总',
+              # u'账户总额',
+              u'手机',
+              u'姓名',
+              u'车牌号',
               u'保单uuid']
 
 
@@ -65,10 +76,10 @@ def parse_out(order, sumAmount, total_amount, info):
     d = {
         'commercialPremium': commercial,
         'compulsoryPremium': compulsory,
-        'commercialPushMoney': commercialPushMoney,
-        'compulsoryPushMoney': compulsoryPushMoney,
-        'commercialRatio': 0.5,
-        'compulsoryRatio': 0.15 if info.get('product_id') == 79 else 0.04,
+        # 'commercialPushMoney': commercialPushMoney,
+        # 'compulsoryPushMoney': compulsoryPushMoney,
+        # 'commercialRatio': 0.5,
+        # 'compulsoryRatio': 0.15 if info.get('product_id') == 79 else 0.04,
         'mobile': info.get('mobile'),
         'name': togbk(info.get('name')),
         'carNumber': togbk(order.get('vehicleInfo').get('licenseNo')),
